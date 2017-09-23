@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+
+    <script type="module">
+      import loader from './loader.js';
+      window.loader = loader;
+    </script>
+    <script defer src="loader.bundle.js"></script>
+
+    <script>
+    onload = _ => {
+
+      if (loader.default)
+        loader = loader.default;
+
+      loader.text('loader.js', 'index.html')
+        .then(res => {
+          console.log('text resources loaded');
+          console.log(res);
+        })
+        .catch(err => {
+          console.error('text load error', err);
+        });
+
+      loader.json(`package.json?${Date.now()}`)
+        .then(res => {
+          console.log('json file loaded');
+          console.log(res[0]);
+        })
+        .catch(err => {
+          console.error('json load error', err);
+        });
+    };
+    </script>
+
+  </body>
+</html>
+
